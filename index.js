@@ -14,9 +14,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
     const db = client.db("GameJam");
     const scoresCollection = db.collection("GJ");
 
-    app.get("/", (req, res, next) => {
+    app.get("/score", (req, res, next) => {
+      res.status(200).send();
+    });
+
+    app.get("/score", (req, res, next) => {
       scoresCollection.find({}).toArray((err, result) => {
-        console.log("HERE");
         if (err) {
           res.send(err);
         } else {
