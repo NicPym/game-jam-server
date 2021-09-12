@@ -8,19 +8,14 @@ const connectionString =
 
 app.use(express.json({ limit: "10mb" }));
 
-const whitelist = ["*"];
 const corsOptions = {
   credentials: true,
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  optionsSuccessStatus: 200,
+  origin: "*",
 };
+
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options("", cors(corsOptions));
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
   (client) => {
