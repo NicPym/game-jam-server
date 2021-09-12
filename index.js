@@ -5,7 +5,7 @@ const MongoClient = require("mongodb").MongoClient;
 const connectionString =
   "mongodb+srv://GameJam:2C89JolF3nPPJQZR@gamejam.4yqqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-  app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "10mb" }));
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
   (client) => {
@@ -15,7 +15,18 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
     const scoresCollection = db.collection("GJ");
 
     app.get("/", (req, res, next) => {
-      res.send("Hello, World");
+      scoresCollection.find({}).toArray((err, result) => {
+        console.log("HERE");
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(
+            result
+              .map((doc) => `${doc.userName}|${doc.score}|${doc.dateTime}`)
+              .join(",")
+          );
+        }
+      });
     });
 
     app.post("/score", (req, res, next) => {
