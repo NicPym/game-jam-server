@@ -1,11 +1,26 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 
 const connectionString =
   "mongodb+srv://GameJam:2C89JolF3nPPJQZR@gamejam.4yqqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 app.use(express.json({ limit: "10mb" }));
+
+const whitelist = ["https://itch.io/"];
+const corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
   (client) => {
