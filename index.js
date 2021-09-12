@@ -8,7 +8,7 @@ const connectionString =
 
 app.use(express.json({ limit: "10mb" }));
 
-const whitelist = ["https://itch.io/"];
+const whitelist = ["*"];
 const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {
