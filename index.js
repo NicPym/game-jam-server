@@ -41,7 +41,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true }).then(
 
       scoresCollection
         .insertOne({
-          username: body.username,
+          userName: body.username,
           score: body.score,
           dateTime: body.dateTime,
         })
